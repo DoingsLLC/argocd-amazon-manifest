@@ -4,7 +4,7 @@ node {
     env.IMAGE = 'doings/netflixapp'
 
     stage('Clone repository') {
-             git branch: 'main', url: ''  
+             git branch: 'main', url: 'https://github.com/DoingsLLC/argocd-amazon-manifest.git'  
     }
 
     stage('Update GIT') {
