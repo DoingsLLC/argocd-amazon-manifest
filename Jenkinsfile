@@ -1,3 +1,18 @@
+def gitAddResult = sh(script: "git add .", returnStatus: true)
+if (gitAddResult != 0) {
+    error "Failed to add files to Git."
+}
+
+def gitCommitResult = sh(script: "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'", returnStatus: true)
+if (gitCommitResult != 0) {
+    error "Failed to commit changes to Git."
+}
+
+def gitPushResult = sh(script: "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DoingsLLC/argocd-amazon-manifest.git HEAD:main", returnStatus: true)
+if (gitPushResult != 0) {
+    error "Failed to push changes to Git."
+}
+
 pipeline {
     agent any
 
