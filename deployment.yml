@@ -23,7 +23,7 @@ spec:
     spec: # Pod spec
       containers:
       - name: amazon-container
-        image: doings/netflixapp:20
+        image: doings/netflixapp:21
         ports:
         - containerPort: 3000
         
