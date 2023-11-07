@@ -2,27 +2,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: amazon-deployment
+  name: amazon-doings-dep
   namespace: default
   labels:
-    app: amazon-app
+    app: amazon-doings-app
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
-      app: amazon-app
+      app: amazon-doings-app
       tier: frontend
       version: 1.0.0
 #pod tempalte
   template:
     metadata:
       labels:
-        app: amazon-app
+        app: amazon-doings-app
         tier: frontend
         version: 1.0.0
     spec: # Pod spec
       containers:
-      - name: amazon-container
+      - name: amazon-doings-container
         image: doings/netflixapp:21
         ports:
         - containerPort: 3000
@@ -32,9 +32,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: amazon-service
+  name: amazon-doings-service
   labels:
-    app: amazon-app
+    app: amazon-doings-app
 spec:
   type: LoadBalancer
   ports:
