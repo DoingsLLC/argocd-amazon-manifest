@@ -1,29 +1,33 @@
-node {
-    def app
-    
-    env.IMAGE = 'doings/netflixapp'
+pipeline {
+    agent any
 
-    stage('Clone repository') {
-             git branch: 'main', url: 'https://github.com/DoingsLLC/argocd-amazon-manifest.git'  
+    environment {
+        DOCKERTAG = "${env.BUILD_NUMBER}"
+        IMAGE = 'doings/netflixapp'
     }
 
-    stage('Update GIT') {
-            script {
+    stages {
+        stage('Clone repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/DoingsLLC/argocd-amazon-manifest.git'
+            }
+        }
+
+        stage('Update GIT') {
+            steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     withCredentials([usernamePassword(credentialsId: 'Doings_Git_token', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-                        //script {def encodedPassword = URLEncoder.encode("$GIT_PASSWORD",'UTF-8')}
-                        //script  {def IMAGE='doings/netflixapp'}
-                        sh "git config user.email peterobijiofor@gmail.com"
-                        sh "git config user.name doingsllc"
-                        //sh "git switch master"
+                        sh "git config --global user.email peterobijiofor@gmail.com"
+                        sh "git config --global user.name doingsllc"
                         sh "cat deployment.yml"
                         sh "sed -i 's+${IMAGE}.*+${IMAGE}:${DOCKERTAG}+g' deployment.yml"
                         sh "cat deployment.yml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
-                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/${GIT_USERNAME}/argocd-amazon-manifest.git HEAD:main"
-             }
-         }
-     }
-  }
+                        sh "git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DoingsLLC/argocd-amazon-manifest.git HEAD:main"
+                    }
+                }
+            }
+        }
+    }
 }
