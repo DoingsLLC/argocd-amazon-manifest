@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: amazon-doings-dep
+  name: amazon-doings-deployment
   namespace: default
   labels:
     app: amazon-doings-app
@@ -23,7 +23,7 @@ spec:
     spec: # Pod spec
       containers:
       - name: amazon-doings-container
-        image: doings/netflixapp:21
+        image: doingsllc/amazon-clone:21
         ports:
         - containerPort: 3000
         
