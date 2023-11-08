@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERTAG = "${env.BUILD_NUMBER}"
-        IMAGE = 'doings/netflixapp'
+        IMAGE = 'doingsllc/amazon-clone'
     }
 
     stages {
