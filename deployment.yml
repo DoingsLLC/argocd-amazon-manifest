@@ -23,7 +23,7 @@ spec:
     spec: # Pod spec
       containers:
       - name: amazon-doings-container
-        image: doingsllc/amazon-clone:23
+        image: doingsllc/amazon-clone:24
         ports:
         - containerPort: 3000
         
